@@ -1,0 +1,28 @@
+version: "3"
+services:
+       cheese-api:
+           container_name: cheese_api 
+           image: cheese_api 
+           restart: always
+           build: .
+           ports:
+             - "8080:8080"
+           links:
+             - mongo
+       cheese-view:
+           container_name: cheese_view 
+           image: cheese_view 
+           restart: always
+           build: .
+           ports:
+             - "3000:3000"
+           links:
+             - cheese-api
+             - mongo
+       mongo:
+             container_name: mongo
+             image: mongo
+             volumes:
+               - ./data:/data/db
+             ports:
+               - '27018:27017'
